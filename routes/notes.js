@@ -1,6 +1,5 @@
 const notes = require("express").Router();
-const fs = require("fs");
-
+var uniqid = require("uniqid");
 const fs = require("fs");
 
 // GET Route for retrieving all the notes
@@ -48,7 +47,7 @@ notes.post("/", (req, res) => {
     const newNote = {
       title,
       text,
-      //   note_id:
+      note_id: uniqid(),
     };
 
     fs.writeFile(newNote, "./db/notes.json");
