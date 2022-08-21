@@ -1,5 +1,6 @@
 const express = require("express");
-const notes = require("./routes/index.js");
+const notes = require("./routes/notes");
+const path = require("path");
 
 //research how to create unique id using npm package
 
@@ -10,9 +11,25 @@ const app = express();
 // Middleware for parsing JSON and urlencoded form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+
+//custom router
 app.use("/api", notes);
 
-app.use(express.static("public"));
+// GET /notes should return the notes.html file.
+app.get("/notes", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/notes.html"));
+});
+
+//GET should return the  homepage
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/index.html"));
+});
+
+// GET * should return the index.html file.
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
+});
 
 //listening to port
 app.listen(PORT, () =>
