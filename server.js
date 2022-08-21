@@ -1,7 +1,8 @@
 const express = require("express");
-const notes = require("./routes/notes");
-const path = require("path");
 
+const path = require("path");
+//linking notes router
+const notes = require("./routes/notes");
 //research how to create unique id using npm package
 
 const PORT = process.env.PORT || 3001;
