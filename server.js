@@ -1,10 +1,10 @@
 const express = require("express");
 
-//linking notes router
+//linking notes and home router
 const notes = require("./routes/apiRoutes");
 const home = require("./routes/homeRoutes");
-//research how to create unique id using npm package
 
+//listening to heroku port or 3001
 const PORT = process.env.PORT || 3001;
 
 const app = express();

@@ -1,6 +1,7 @@
 const notes = require("express").Router();
+//package to create unique id for each note
 var uniqid = require("uniqid");
-// const fs = require("fs");
+
 const {
   readFromFile,
   readAndAppend,
@@ -11,38 +12,6 @@ const {
 notes.get("/notes", (req, res) => {
   readFromFile("./db/notes.json").then((data) => res.json(JSON.parse(data)));
 });
-
-
-// GET Route for a specific note
-notes.get("/notes/:note_id", (req, res) => {
-  const noteId = req.params.note_id;
- readFromFile("./db/notes.json")
-   .then((data) => JSON.parse(data))
-   .then((json) => {
-     const result = json.filter((note) => note.note_id === noteId);
-     return result.length > 0
-       ? res.json(result)
-       : res.json("No note with that ID");
-   });
-});
-
-// DELETE Route for a specific note
-notes.delete("/notes/:note_id", (req, res) => {
-  const noteId = req.params.tip_id;
-  readFromFile("./db/notes.json")
-    .then((data) => JSON.parse(data))
-    .then((json) => {
-      // Make a new array of all tips except the one with the ID provided in the URL
-      const result = json.filter((note) => note.note_id !== noteId);
-
-      // Save that array to the filesystem
-      writeToFile("./db/notes.json", result);
-
-      // Respond to the DELETE request
-      res.json(`Item ${noteId} has been deleted 🗑️`);
-    });
-});
-
 
 // POST Route for a new note
 notes.post("/notes", (req, res) => {
@@ -57,10 +26,32 @@ notes.post("/notes", (req, res) => {
       note_id: uniqid(),
     };
     readAndAppend(newNote, "./db/notes.json");
-    res.json(`Note added successfully 🚀`);
-  } else {
-    res.error("Error in adding note");
   }
+});
+
+// GET Route for a specific note
+notes.get("/notes/:note_id", (req, res) => {
+  const noteId = req.params.note_id;
+  readFromFile("./db/notes.json")
+    .then((data) => JSON.parse(data))
+    .then((json) => {
+      const result = json.filter((note) => note.note_id === noteId);
+      return result.length > 0
+        ? res.json(result)
+        : res.json("No note with that ID");
+    });
+});
+
+// DELETE Route for a specific note
+notes.delete("/notes/:note_id", (req, res) => {
+  const noteId = req.params.note_id;
+  readFromFile("./db/notes.json")
+    .then((data) => JSON.parse(data))
+    .then((json) => {
+      const result = json.filter((note) => note.note_id !== noteId);
+
+      writeToFile("./db/notes.json", result);
+    });
 });
 
 module.exports = notes;

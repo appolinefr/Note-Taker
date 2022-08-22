@@ -1,12 +1,22 @@
 [
     {
-        "title": "prout",
-        "text": "sdfsfsdf",
-        "note_id": "u1k19nal74hzoux"
+        "title": "Boat Booking",
+        "text": "send an email to the boat company to book a boat for the end of year party\n",
+        "note_id": "u1k19s2l74icv8k"
     },
     {
-        "title": "sdfsdfsd",
-        "text": "fsdf",
-        "note_id": "u1k19p0l74i1fft"
+        "title": "Call ATO",
+        "text": "call ATO to amend TFN for all employees",
+        "note_id": "u1k19wal74ifspc"
+    },
+    {
+        "title": "Send invoice",
+        "text": "Send invoice for a lot of money",
+        "note_id": "u1k19xzl74iiour"
+    },
+    {
+        "title": "Post ad to hire new engineer",
+        "text": "do this urgently!!!!",
+        "note_id": "u1k19xzl74imhxq"
     }
 ]
