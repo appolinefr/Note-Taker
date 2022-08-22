@@ -1,22 +1,16 @@
 const notes = require("express").Router();
 var uniqid = require("uniqid");
 const fs = require("fs");
-const path = require("path");
-
-// GET /notes should return the notes.html file.
-notes.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/notes.html"));
-});
 
 // GET Route for retrieving all the notes
-notes.get("/", (req, res) => {
-  fs.readFile("./db/notes.json").then((data) => res.json(JSON.parse(data)));
+notes.get("/notes", (req, res) => {
+  fs.readFile("../db/notes.json").then((data) => res.json(JSON.parse(data)));
 });
 
 // GET Route for a specific note
-notes.get("/:note_id", (req, res) => {
+notes.get("/notes/:note_id", (req, res) => {
   const noteId = req.params.note_id;
-  fs.readFile("./db/notes.json")
+  fs.readFile("../db/notes.json")
     .then((data) => JSON.parse(data))
     .then((json) => {
       const result = json.filter((note) => note.note_id === noteId);
@@ -27,16 +21,16 @@ notes.get("/:note_id", (req, res) => {
 });
 
 // DELETE Route for a specific note
-notes.delete("/:note_id", (req, res) => {
+notes.delete("/notes/:note_id", (req, res) => {
   const noteId = req.params.note_id;
-  fs.readFile("./db/notes.json")
+  fs.readFile("../db/notes.json")
     .then((data) => JSON.parse(data))
     .then((json) => {
       // Make a new array of all tips except the one with the ID provided in the URL
       const result = json.filter((note) => note.note_id !== noteId);
 
       // Save that array to the filesystem
-      fs.writeFile("./db/notes.json", result);
+      fs.writeFile("../db/notes.json", result);
 
       // Respond to the DELETE request
       res.json(`Item ${noteId} has been deleted 🗑️`);
@@ -44,7 +38,7 @@ notes.delete("/:note_id", (req, res) => {
 });
 
 // POST Route for a new note
-notes.post("/", (req, res) => {
+notes.post("/notes", (req, res) => {
   console.log(req.body);
 
   const { title, text } = req.body;
@@ -56,7 +50,7 @@ notes.post("/", (req, res) => {
       note_id: uniqid(),
     };
 
-    fs.writeFile(newNote, "./db/notes.json");
+    fs.writeFile(newNote, "../db/notes.json");
     res.json(`note added successfully 🚀`);
   } else {
     res.error("Error in adding note");

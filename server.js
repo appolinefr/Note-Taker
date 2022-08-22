@@ -1,8 +1,8 @@
 const express = require("express");
 
-const path = require("path");
 //linking notes router
-const notes = require("./routes/notes");
+const notes = require("./routes/apiRoutes");
+const home = require("./routes/homeRoutes");
 //research how to create unique id using npm package
 
 const PORT = process.env.PORT || 3001;
@@ -14,18 +14,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-//custom router
-app.use("/notes", notes);
-
-//GET should return the  homepage
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/index.html"));
-});
-
-// GET * should return the index.html file.
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/index.html"));
-});
+//custom routers
+app.use("/api", notes);
+app.use("/", home);
 
 //listening to port
 app.listen(PORT, () =>
