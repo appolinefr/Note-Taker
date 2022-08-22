@@ -1,6 +1,12 @@
 const notes = require("express").Router();
 var uniqid = require("uniqid");
 const fs = require("fs");
+const path = require("path");
+
+// GET /notes should return the notes.html file.
+notes.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/notes.html"));
+});
 
 // GET Route for retrieving all the notes
 notes.get("/", (req, res) => {

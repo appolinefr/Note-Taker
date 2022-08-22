@@ -15,21 +15,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 //custom router
-app.use("/api", notes);
-
-// GET /notes should return the notes.html file.
-app.get("/notes", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/notes.html"));
-});
+app.use("/notes", notes);
 
 //GET should return the  homepage
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/index.html"));
+  res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 // GET * should return the index.html file.
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
+  res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 //listening to port
