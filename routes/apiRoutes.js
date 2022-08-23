@@ -29,29 +29,6 @@ notes.post("/notes", (req, res) => {
   }
 });
 
-// GET Route for a specific note
-notes.get("/notes/:note_id", (req, res) => {
-  const noteId = req.params.note_id;
-  readFromFile("./db/notes.json")
-    .then((data) => JSON.parse(data))
-    .then((json) => {
-      const result = json.filter((note) => note.note_id === noteId);
-      return result.length > 0
-        ? res.json(result)
-        : res.json("No note with that ID");
-    });
-});
 
-// DELETE Route for a specific note
-notes.delete("/notes/:note_id", (req, res) => {
-  const noteId = req.params.note_id;
-  readFromFile("./db/notes.json")
-    .then((data) => JSON.parse(data))
-    .then((json) => {
-      const result = json.filter((note) => note.note_id !== noteId);
-
-      writeToFile("./db/notes.json", result);
-    });
-});
 
 module.exports = notes;
