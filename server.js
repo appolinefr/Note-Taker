@@ -15,8 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 //custom routers
-app.use("/api", notes);
-app.use("/", home);
+app.use(notes);
+app.use(home);
 
 //listening to port
 app.listen(PORT, () =>

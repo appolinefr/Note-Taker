@@ -1,34 +1,35 @@
+const fs = require("fs");
 const notes = require("express").Router();
 //package to create unique id for each note
 var uniqid = require("uniqid");
 
-const {
-  readFromFile,
-  readAndAppend,
-  writeToFile,
-} = require("../helper/fsUtils");
-
-// GET Route for retrieving all the notes
-notes.get("/notes", (req, res) => {
-  readFromFile("./db/notes.json").then((data) => res.json(JSON.parse(data)));
+//Getting all the notes
+notes.get("/api/notes", (req, res) => {
+  fs.readFile("./db/notes.json", (err, data) => {
+    if (err) throw err;
+    res.send(data);
+  });
 });
 
-// POST Route for a new note
-notes.post("/notes", (req, res) => {
-  console.log(req.body);
+//Route for posting a new note
+notes.post("/api/notes", (req, res) => {
+  let newNote = {
+    title: req.body.title,
+    text: req.body.text,
+    id: uniqid(),
+  };
 
-  const { title, text } = req.body;
+  fs.readFile("./db/notes.json", (err, data) => {
+    if (err) throw err;
 
-  if (req.body) {
-    const newNote = {
-      title,
-      text,
-      note_id: uniqid(),
-    };
-    readAndAppend(newNote, "./db/notes.json");
-  }
+    let savedData = JSON.parse(data);
+    savedData.push(newNote);
+
+    fs.writeFile("./db/notes.json", JSON.stringify(savedData), (err) => {
+      if (err) throw err;
+      res.send("Note added!");
+    });
+  });
 });
-
-
 
 module.exports = notes;
